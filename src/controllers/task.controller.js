@@ -13,7 +13,7 @@ module.exports.index = async (req, res) => {
   let sort = {};
   let objectPagination = paginationHelper(
     {
-      itemLimit: 4 ,
+      itemLimit: 4,
       page: 1,
     },
     req.query
@@ -24,6 +24,11 @@ module.exports.index = async (req, res) => {
   }
   if (sortKey && sortValue) {
     sort[sortKey] = sortValue;
+  }
+
+  if (req.query.keyword) {
+    const regex = new RegExp(req.query.keyword, "i");
+    find["title"] = regex;
   }
 
   const tasks = await Task.find(find)
