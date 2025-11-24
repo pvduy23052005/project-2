@@ -1,4 +1,5 @@
 const Task = require("../models/task.model");
+const paginationHelper = require("../helpers/pagination.helper");
 
 // [get] /api/v1/tasks .
 module.exports.index = async (req, res) => {
@@ -10,6 +11,13 @@ module.exports.index = async (req, res) => {
     deleted: false,
   };
   let sort = {};
+  let objectPagination = paginationHelper(
+    {
+      itemLimit: 4 ,
+      page: 1,
+    },
+    req.query
+  );
 
   if (status) {
     find.status = status;
@@ -18,7 +26,11 @@ module.exports.index = async (req, res) => {
     sort[sortKey] = sortValue;
   }
 
-  const tasks = await Task.find(find).sort(sort);
+  const tasks = await Task.find(find)
+    .sort(sort)
+    .limit(objectPagination.itemLimit)
+    .skip(objectPagination.itemSkip);
+
   res.json(tasks);
 };
 
