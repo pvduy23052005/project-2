@@ -2,7 +2,17 @@ const Task = require("../models/task.model");
 
 // [get] /api/v1/tasks .
 module.exports.index = async (req, res) => {
-  const tasks = await Task.find({ deleted: false });
+  const status = req.query.status;
+
+  let find = {
+    deleted: false,
+  };
+
+  if (status) {
+    find.status = status;
+  }
+
+  const tasks = await Task.find(find);
   res.json(tasks);
 };
 
@@ -13,6 +23,5 @@ module.exports.detail = async (req, res) => {
     _id: id,
     deleted: false,
   });
-  console.log(task);
   res.json(task);
 };
