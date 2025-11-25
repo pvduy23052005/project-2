@@ -48,3 +48,25 @@ module.exports.detail = async (req, res) => {
   });
   res.json(task);
 };
+
+// [patch] api/v1/tasks/change-status/:id ;
+module.exports.changeStatus = async (req, res) => {
+  const id = req.params.id;
+  try {
+    await Task.updateOne(
+      {
+        _id: id,
+      },
+      {
+        status: req.body.status,
+      }
+    );
+    res.status(200).json({
+      message: "Status updated successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
