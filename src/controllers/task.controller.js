@@ -70,3 +70,34 @@ module.exports.changeStatus = async (req, res) => {
     });
   }
 };
+
+// [patch] api/v1/tasks/change-multi ;
+module.exports.changeMulti = async (req, res) => {
+  try {
+    const { listId, key, value } = req.body;
+    // key : status , value : "finish".
+
+    switch (key) {
+      case "status":
+        await Task.updateMany(
+          {
+            _id: { $in: listId },
+          },
+          {
+            status: value,
+          }
+        );
+        break;
+
+      default:
+        break;
+    }
+    res.status(200).json({
+      message: "Tasks updated successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
