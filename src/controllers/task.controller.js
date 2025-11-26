@@ -115,3 +115,18 @@ module.exports.createPost = async (req, res) => {
     res.status(500).json({ message: "error" });
   }
 };
+
+// [patch] api/v1/task/edit/:id ;
+module.exports.edit = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    await Task.updateOne(req.body);
+
+    res.status(202).json({
+      message : "Update task success"
+    })
+  } catch (error) {
+    res.status(500).json({ message: "error" }); 
+  }
+};
