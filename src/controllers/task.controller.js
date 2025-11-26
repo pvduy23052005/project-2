@@ -88,7 +88,16 @@ module.exports.changeMulti = async (req, res) => {
           }
         );
         break;
-
+      case "delete":
+        await Task.updateMany(
+          {
+            _id: { $in: listId },
+          },
+          {
+            deleted: true,
+          }
+        );
+        break;
       default:
         break;
     }
@@ -124,9 +133,32 @@ module.exports.edit = async (req, res) => {
     await Task.updateOne(req.body);
 
     res.status(202).json({
-      message : "Update task success"
-    })
+      message: "Update task success",
+    });
   } catch (error) {
-    res.status(500).json({ message: "error" }); 
+    res.status(500).json({ message: "error" });
+  }
+};
+
+// [patch] api/v1/task/edit/:id ;
+module.exports.delete = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const id = req.params.id;
+
+    await Task.updateOne(
+      {
+        _id: id,
+      },
+      {
+        deleted: true,
+      }
+    );
+
+    res.status(202).json({
+      message: "delete task success",
+    });
+  } catch (error) {
+    res.status(500).json({ message: "error" });
   }
 };
