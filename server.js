@@ -2,11 +2,13 @@ const express = require("express");
 require("dotenv").config();
 const Database = require("./src/config/database");
 const indexRoute = require("./src/routes/index.route");
+const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 5050;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 Database.connectDatabase();
 indexRoute(app);
