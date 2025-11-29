@@ -6,4 +6,10 @@ router.post("/register", controller.registerPost);
 
 router.post("/login", controller.loginPost);
 
+router.post("/password/forgot", controller.forgotPassword);
+
+router.post("/password/opt", controller.optPost);
+
+router.post("/password/reset", controller.resetPost);
+
 module.exports = router;
