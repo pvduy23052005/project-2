@@ -39,3 +39,28 @@ module.exports.registerPost = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+module.exports.loginPost = async (req, res) => {
+  const { email, password } = req.body;
+
+  const checkEmail = await User.findOne({
+    email: email,
+    deleted: false,
+  });
+
+  if (!checkEmail) {
+    return res.status(201).json({ message: "Email khong ton tai" });
+  }
+
+  if (checkEmail.password !== md5(password)) {
+    return res.status(201).json({ message: "Mat khau khong dung" });
+  }
+
+  const token = checkEmail.token;
+  res.cookie("token", token);
+
+  res.status(200).json({
+    message: "Login success",
+    token: token,
+  });
+};
