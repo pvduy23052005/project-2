@@ -1,5 +1,11 @@
 const routeTask = require("./task.route");
+const routeUser = require("./user.route");
 
 module.exports = (app) => {
-  app.use("/api/v1/tasks", routeTask);
+
+  const PATH_API = "/api/v1";
+
+  app.use(PATH_API + "/tasks", routeTask);
+
+  app.use(PATH_API + "/users", routeUser);
 };
