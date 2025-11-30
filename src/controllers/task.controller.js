@@ -11,8 +11,8 @@ module.exports.index = async (req, res) => {
   let find = {
     deleted: false,
     $or : [
-      { account_id : req.user.id} , 
-      { listUser : req.user.id}
+      { user_id : userId} , 
+      { listUser : { $in : [userId]}}
     ],
   };
   let sort = {};
@@ -41,6 +41,7 @@ module.exports.index = async (req, res) => {
     .limit(objectPagination.itemLimit)
     .skip(objectPagination.itemSkip);
 
+  
   res.json(tasks);
 };
 
