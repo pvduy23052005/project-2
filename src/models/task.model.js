@@ -18,6 +18,9 @@ const taskSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    listUser: {
+      type: Array,
+    },
     timeStart: {
       type: Date,
       required: [true, "Vui lòng nhập thời gian bắt đầu"],

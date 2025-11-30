@@ -10,7 +10,10 @@ module.exports.index = async (req, res) => {
 
   let find = {
     deleted: false,
-    user_id: userId,
+    $or : [
+      { account_id : req.user.id} , 
+      { listUser : req.user.id}
+    ],
   };
   let sort = {};
   let objectPagination = paginationHelper(
@@ -119,7 +122,6 @@ module.exports.createPost = async (req, res) => {
   try {
     req.body.user_id = req.user.id;
 
-    console.log(req.body);
     const task = new Task(req.body);
     const data = await task.save();
 
