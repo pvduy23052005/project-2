@@ -160,3 +160,25 @@ module.exports.resetPost = async (req, res) => {
     message: "Thay doi thanh cong",
   });
 };
+
+// [post] //api/v1/users/detail
+module.exports.detail = async (req, res) => {
+  const token = req.cookies.token;
+
+  const user = await User.findOne({
+    token: token,
+    deleted: false,
+  }).select("-password -token ");
+
+  if (!user) {
+    return res.status(500).json({
+      code: "500",
+      message: "Vui long thu lai!",
+    });
+  }
+
+  res.status(200).json({
+    code: "200",
+    user: user,
+  });
+};

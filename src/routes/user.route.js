@@ -12,4 +12,6 @@ router.post("/password/opt", controller.optPost);
 
 router.post("/password/reset", controller.resetPost);
 
+router.get("/detail", controller.detail);
+
 module.exports = router;
