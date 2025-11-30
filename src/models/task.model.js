@@ -14,6 +14,10 @@ const taskSchema = new mongoose.Schema(
       type: String,
       required: [true, "Vui lòng nhập nội dung công việc"],
     },
+    user_id: {
+      type: String,
+      require: true,
+    },
     timeStart: {
       type: Date,
       required: [true, "Vui lòng nhập thời gian bắt đầu"],

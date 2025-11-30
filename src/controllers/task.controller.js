@@ -6,9 +6,11 @@ module.exports.index = async (req, res) => {
   const status = req.query.status;
   const sortKey = req.query.sortKey;
   const sortValue = req.query.sortValue;
+  const userId = req.user.id;
 
   let find = {
     deleted: false,
+    user_id: userId,
   };
   let sort = {};
   let objectPagination = paginationHelper(
@@ -52,6 +54,7 @@ module.exports.detail = async (req, res) => {
 // [patch] api/v1/tasks/change-status/:id ;
 module.exports.changeStatus = async (req, res) => {
   const id = req.params.id;
+
   try {
     await Task.updateOne(
       {
@@ -114,11 +117,15 @@ module.exports.changeMulti = async (req, res) => {
 // [patch] api/v1/task/create
 module.exports.createPost = async (req, res) => {
   try {
+    req.body.user_id = req.user.id;
+
+    console.log(req.body);
     const task = new Task(req.body);
     const data = await task.save();
 
     res.status(200).json({
       message: "Create task success ",
+      task: data,
     });
   } catch (error) {
     res.status(500).json({ message: "error" });
