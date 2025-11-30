@@ -29,6 +29,7 @@ module.exports.registerPost = async (req, res) => {
       fullName: fullName,
       email: email,
       password: hashpassword,
+      token: random.randomString(20),
     });
     await newUser.save();
     const token = newUser.token;
@@ -163,22 +164,22 @@ module.exports.resetPost = async (req, res) => {
 
 // [post] //api/v1/users/detail
 module.exports.detail = async (req, res) => {
-  const token = req.cookies.token;
+  // const token = req.cookies.token;
 
-  const user = await User.findOne({
-    token: token,
-    deleted: false,
-  }).select("-password -token ");
+  // const user = await User.findOne({
+  //   token: token,
+  //   deleted: false,
+  // }).select("-password -token ");
 
-  if (!user) {
-    return res.status(500).json({
-      code: "500",
-      message: "Vui long thu lai!",
-    });
-  }
+  // if (!user) {
+  //   return res.status(500).json({
+  //     code: "500",
+  //     message: "Vui long thu lai!",
+  //   });
+  // }
 
   res.status(200).json({
     code: "200",
-    user: user,
+    user: req.user,
   });
 };
